@@ -38,10 +38,9 @@ function renderTasks() {
             <span class="task-complete">
               <input id="checkbox_${item.id}" type="checkbox" onclick="taskCompleted('${item.id}')" ${item.checked ? 'checked' : ''}/>
             </span>
-            <div class="task-title" id="task_title_${item.id}" contenteditable="true" aria-multiline="true"  onkeydown="syncUItoLocalSorage('${item.id}')">${item.title}</div>
+            <div class="task-title" id="task_title_${item.id}" contenteditable="true" aria-multiline="true"  onkeyup="syncUItoLocalStorage('${item.id}')">${item.title}</div>
             <div role="img" class="remove-button" title="remove" onclick="removeTask('${item.id}')"></div>
-          </li>	
-	  `;
+          </li>`;
     });
     tasksList.innerHTML = htmlTask;
 }
@@ -75,7 +74,7 @@ function removeTask(taskId) {
 }
 
 
-function syncUItoLocalSorage(taskId) {
+function syncUItoLocalStorage(taskId) {
     const editedTaskIndex = tasks.findIndex(x => x.id === taskId);
     const taskEdited = document.getElementById('task_title_' + taskId);
     tasks[editedTaskIndex].title = taskEdited.textContent;
@@ -91,7 +90,7 @@ if (window.localStorage.getItem('taskList')) {
 // event listeners
 addTaskButton.addEventListener('click', addTask);
 addTaskField.addEventListener('keydown', event => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
         addTask();
     }
 });
