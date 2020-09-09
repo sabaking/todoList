@@ -21,7 +21,7 @@ Non-Functional Requirements:
 
 For Edit task just click on a title 
 
-Example: https://jsfiddle.net/sabaking/q1d98wgu/1/
+Example: https://jsfiddle.net/sabaking/o2r4p3x1/
 
 Possible problems:
 1) localStorage have size limit (10 MB per origin in Google) see in code fn syncTasksToLocalStorage()
