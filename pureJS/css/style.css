@@ -1,0 +1,98 @@
+body {
+    font-size: 15px;
+    font-family: 'source_sans_pro', sans-serif;
+}
+
+/* remove ugly black border on click & input focus */
+button:focus, input:focus {
+    outline: none !important
+}
+
+a {
+    color: gray;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: red;
+}
+
+#container h3 {
+    text-align: center;
+}
+
+#addForm, #wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+#taskTitle {
+    width: 300px;
+    height: 25px;
+    margin-right: 5px;
+    border: 1px solid;
+    border-color: #e0e0e0;
+    padding: 3px;
+}
+
+#wrapper ul {
+    width: 430px;
+}
+
+#tasksList {
+    list-style-type: none;
+}
+
+#tasksList li {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    margin-bottom: 8px;
+    padding: 5px;
+    border-bottom: 2px solid #e7e7e7;
+}
+
+#tasksList li input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+#tasksList li div {
+    outline: none;
+}
+
+#addTaskBtn {
+    border-color: #64B8E1;
+    background: #64B8E1;
+    color: #FFF;
+    border-radius: 3px;
+    border: none;
+    cursor: pointer;
+}
+
+.remove-button {
+    cursor: pointer;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    height: 24px;
+    opacity: .54;
+    width: 24px;
+    margin-left: auto;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjMDAwIj4KICA8cGF0aCBkPSJNMTkgNi40MUwxNy41OSA1IDEyIDEwLjU5IDYuNDEgNSA1IDYuNDEgMTAuNTkgMTIgNSAxNy41OSA2LjQxIDE5IDEyIDEzLjQxIDE3LjU5IDE5IDE5IDE3LjU5IDEzLjQxIDEyIDE5IDYuNDF6Ii8+Cjwvc3ZnPgo=);
+}
+
+.task-completed {
+    text-decoration: line-through;
+    color: #a7a7a7;
+}
+
+span.task-complete {
+    margin-right: 5px;
+}
+
+.task-title {
+    width: 100%;
+}
