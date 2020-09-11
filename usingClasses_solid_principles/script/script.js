@@ -44,13 +44,13 @@ class TaskList {
         return this;
     }
 
-    completedTaskToggle(taskId) {
+    completedTask(taskId) {
         const completedTaskIndex = this.findIndexByTaskId(taskId);
         this.tasks[completedTaskIndex].isCompleted = false;
         return this;
     }
 
-    unCompletedTaskToggle(taskId) {
+    unCompletedTask(taskId) {
         const completedTaskIndex = this.findIndexByTaskId(taskId);
         this.tasks[completedTaskIndex].isCompleted = true;
         return this;
@@ -120,10 +120,10 @@ class OutputRender {
                 const liParent = event.target.parentNode;
                 if (event.target.checked === true) {
                     liParent.classList.add('task-completed');
-                    taskList.unCompletedTaskToggle(liParent.id).saveToStorage();
+                    taskList.unCompletedTask(liParent.id).saveToStorage();
                 } else {
                     liParent.classList.remove('task-completed');
-                    taskList.completedTaskToggle(liParent.id).saveToStorage();
+                    taskList.completedTask(liParent.id).saveToStorage();
                 }
             });
         }
@@ -146,7 +146,7 @@ if (window.localStorage.getItem('taskList')) {
     render.addTasksEvents();
 }
 
-let newTaskAction = (event) => {
+let newTaskAction = () => {
     if (addTaskField.value) {
         // mb escapeHTML if needed  for addTaskField.value
         taskList.addTask(new Task(addTaskField.value)).saveToStorage();
@@ -161,11 +161,11 @@ let newTaskAction = (event) => {
 // event listeners
 addTaskButton.addEventListener('click', event => {
     event.preventDefault();
-    newTaskAction(event);
+    newTaskAction();
 });
 addTaskField.addEventListener('keydown', event => {
     if (event.key === 'Enter') {
-        newTaskAction(event);
+        newTaskAction();
     }
 });
 

@@ -30,8 +30,7 @@ a:hover {
     width: 300px;
     height: 25px;
     margin-right: 5px;
-    border: 1px solid;
-    border-color: #e0e0e0;
+    border: 1px solid #e0e0e0;
     padding: 3px;
 }
 
@@ -57,11 +56,10 @@ a:hover {
 }
 
 #addTaskBtn {
-    border-color: #64B8E1;
     background: #64B8E1;
     color: #FFF;
     border-radius: 3px;
-    border: none;
+    border: none #64B8E1;
     cursor: pointer;
 }
 
