@@ -17,70 +17,69 @@ class Task {
 
 class TaskList {
     constructor(tasks) {
-        this.tasks = tasks || [];
+        this._tasks = tasks || [];
     }
 
-    getTasks() {
-        return this.tasks;
+    get tasks() {
+        return this._tasks;
     }
 
-    addTask(task) {
+    add(task) {
         this.tasks.push(task);
         return this;
     }
 
     findIndexByTaskId(taskId) {
-        return this.tasks.findIndex(x => x.id === taskId);
+        return this._tasks.findIndex(x => x.id === taskId);
     }
 
-    editTask(taskId, title) {
+    edit(taskId, title) {
         const editedTaskIndex = this.findIndexByTaskId(taskId);
-        this.tasks[editedTaskIndex].title = title;
+        this._tasks[editedTaskIndex].title = title;
         return this;
     }
 
-    removeTask(taskId) {
-        this.tasks = this.tasks.filter(x => x.id !== taskId);
+    delete(taskId) {
+        this._tasks = this._tasks.filter(x => x.id !== taskId);
         return this;
     }
 
-    completedTask(taskId) {
+    completed(taskId) {
         const completedTaskIndex = this.findIndexByTaskId(taskId);
-        this.tasks[completedTaskIndex].isCompleted = false;
+        this._tasks[completedTaskIndex].isCompleted = false;
         return this;
     }
 
-    unCompletedTask(taskId) {
+    unCompleted(taskId) {
         const completedTaskIndex = this.findIndexByTaskId(taskId);
-        this.tasks[completedTaskIndex].isCompleted = true;
+        this._tasks[completedTaskIndex].isCompleted = true;
         return this;
     }
 
     loadFromStorage() {
-        this.tasks = JSON.parse(window.localStorage.getItem('taskList'));
+        this._tasks = JSON.parse(window.localStorage.getItem('taskList'));
         return this;
     }
 
     saveToStorage() {
-        window.localStorage.setItem('taskList', JSON.stringify(this.tasks));
+        window.localStorage.setItem('taskList', JSON.stringify(this._tasks));
         return this;
     }
 }
 
 class OutputRender {
     constructor(tasks) {
-        this.tasks = tasks || [];
+        this._tasks = tasks || [];
     }
 
-    setTasks(tasksArray) {
-        this.tasks = tasksArray;
+    set tasks(tasksArray) {
+        this._tasks = tasksArray;
     }
 
     toHTML() {
         let htmlTasks = '';
-        // sorting array
-        this.tasks.sort((a, b) => (a.title > b.title) ? 1 : -1);
-        this.tasks.forEach((item) => {
+        this._tasks.sort((a, b) => (a.title > b.title) ? 1 : -1);
+        this._tasks.forEach((item) => {
             htmlTasks += `
               <li id="${item.id}" ${item.isCompleted ? 'class="task-completed"' : ''}>
                   <input class="checkbox-task-completed" type="checkbox" ${item.isCompleted ? 'checked' : ''}/>
@@ -92,38 +91,36 @@ class OutputRender {
     }
 
     addTasksEvents() {
-        // attach remove events
         const removeButtons = document.querySelectorAll('.remove-button');
         for (const removeButton of removeButtons) {
             removeButton.addEventListener('click', event => {
                 if (confirm("Are you sure remove the task?") === true) {
                     event.preventDefault();
                     const liParent = event.target.parentNode;
-                    taskList.removeTask(liParent.id).saveToStorage();
+                    taskList.delete(liParent.id).saveToStorage();
                     liParent.remove();
                 }
             });
         }
-        // edit tasks
+
         const editTaskDivs = document.querySelectorAll('.task-title');
         for (const editTaskDiv of editTaskDivs) {
             editTaskDiv.addEventListener('keyup', event => {
                 const liParent = event.target.parentNode;
-                taskList.editTask(liParent.id, editTaskDiv.textContent).saveToStorage();
+                taskList.edit(liParent.id, editTaskDiv.textContent).saveToStorage();
             });
         }
 
-        // check completed
         const checkboxTasksCompleted = document.querySelectorAll('.checkbox-task-completed');
         for (const checkboxTaskCompleted of checkboxTasksCompleted) {
             checkboxTaskCompleted.addEventListener('click', event => {
                 const liParent = event.target.parentNode;
                 if (event.target.checked === true) {
                     liParent.classList.add('task-completed');
-                    taskList.unCompletedTask(liParent.id).saveToStorage();
+                    taskList.unCompleted(liParent.id).saveToStorage();
                 } else {
                     liParent.classList.remove('task-completed');
-                    taskList.completedTask(liParent.id).saveToStorage();
+                    taskList.completed(liParent.id).saveToStorage();
                 }
             });
         }
@@ -141,16 +138,16 @@ const render = new OutputRender();
 
 // load tasks from localStorage
 if (window.localStorage.getItem('taskList')) {
-    render.setTasks(taskList.loadFromStorage().getTasks());
+    render.tasks = taskList.loadFromStorage().tasks;
     tasksField.innerHTML = render.toHTML();
     render.addTasksEvents();
 }
 
-let newTaskAction = () => {
+const newTaskAction = () => {
     if (addTaskField.value) {
         // mb escapeHTML if needed  for addTaskField.value
-        taskList.addTask(new Task(addTaskField.value)).saveToStorage();
-        render.setTasks(taskList.getTasks());
+        taskList.add(new Task(addTaskField.value)).saveToStorage();
+        render.tasks = taskList.tasks;
         tasksField.innerHTML = render.toHTML();
         render.addTasksEvents();
         addTaskField.value = '';
